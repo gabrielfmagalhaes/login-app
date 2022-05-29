@@ -21,5 +21,5 @@ func (h *Handler) Post(c echo.Context) error {
 		return c.JSON(common.NewBadRequestResponse())
 	}
 
-	return nil
+	return c.JSON(common.NewCreatedResponse())
 }
