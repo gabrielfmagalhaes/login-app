@@ -1,6 +1,7 @@
 package common
 
 import (
+	"net/http"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -9,11 +10,11 @@ import (
 func TestNewBadRequestResponse(t *testing.T) {
 	expect := struct {
 		statusCode int
-		response   controllerResponse
+		response   ControllerResponse
 	}{
-		400,
-		controllerResponse{
-			errBadRequest,
+		http.StatusBadRequest,
+		ControllerResponse{
+			"bad_request",
 			"Bad Request",
 			map[string]interface{}{},
 		},
