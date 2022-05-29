@@ -29,3 +29,23 @@ func TestBadRequestWhenPostMethod(t *testing.T) {
 		assert.Equal(t, expectBody, rec.Body.String())
 	}
 }
+
+func TestSuccessCreatedWhenPostMethod(t *testing.T) {
+	expectBody := "{\"code\":\"created\",\"message\":\"Created\",\"data\":{}}\n"
+
+	e := echo.New()
+
+	req := httptest.NewRequest(http.MethodPost, "/", nil)
+	rec := httptest.NewRecorder()
+
+	c := e.NewContext(req, rec)
+
+	c.SetPath("/v1/users")
+
+	h := &Handler{}
+
+	if assert.NoError(t, h.Post(c)) {
+		assert.Equal(t, http.StatusCreated, rec.Code)
+		assert.Equal(t, expectBody, rec.Body.String())
+	}
+}
