@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestServe(t *testing.T) {
+func TestGetHealth(t *testing.T) {
 	e := echo.New()
 
 	req := httptest.NewRequest(http.MethodGet, "/", nil)
