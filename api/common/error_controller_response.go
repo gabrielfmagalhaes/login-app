@@ -1,11 +1,14 @@
 package common
 
-import "net/http"
+import (
+	"login-app/api/out"
+	"net/http"
+)
 
-func NewBadRequestResponse() (int, ControllerResponse) {
-	return http.StatusBadRequest, ControllerResponse{
-		"bad_request",
-		"Bad Request",
-		map[string]interface{}{},
+func NewBadRequestResponse(data interface{}) (int, out.ControllerResponse) {
+	return http.StatusBadRequest, out.ControllerResponse{
+		Code:    "bad_request",
+		Message: "Bad Request",
+		Data:    data,
 	}
 }

@@ -1,11 +1,13 @@
 package common
 
-import "net/http"
+import (
+	"login-app/api/out"
+	"net/http"
+)
 
-func NewCreatedResponse() (int, ControllerResponse) {
-	return http.StatusCreated, ControllerResponse{
-		"created",
-		"Created",
-		map[string]interface{}{},
+func NewCreatedResponse(data interface{}) (int, out.ControllerResponse) {
+	return http.StatusCreated, out.ControllerResponse{
+		Code:    "created",
+		Message: "Created",
 	}
 }

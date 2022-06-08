@@ -1,4 +1,4 @@
-package common
+package out
 
 type ControllerResponse struct {
 	Code    interface{} `json:"code"`
