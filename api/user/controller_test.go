@@ -30,7 +30,7 @@ func TestBadRequestWhenPostMethod(t *testing.T) {
 }
 
 func TestSuccessCreatedWhenPostMethod(t *testing.T) {
-	expectBody := `{"code":"created","message":"Created","data":null}`
+	expectBody := `{"code":"created","message":"Created","data":"johndoe@email.com"}`
 
 	requestBody := `{"name":"john","email":"johndoe@email.com","password":"12345678","password_confirmation":"12345678"}`
 
