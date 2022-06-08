@@ -3,25 +3,14 @@ package main
 import (
 	"context"
 	"login-app/api"
-	"login-app/api/user"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
-
-	"github.com/labstack/echo/v4"
 )
 
 func main() {
-	e := echo.New()
-
-	handler := user.NewController()
-
-	e.GET("/health", func(c echo.Context) error {
-		return c.NoContent(200)
-	})
-
-	api.RegisterPath(e, handler)
+	e := api.SetupRouter()
 
 	go func() {
 		if err := e.Start(":8000"); err != nil && err != http.ErrServerClosed {

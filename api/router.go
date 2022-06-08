@@ -6,7 +6,20 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func RegisterPath(e *echo.Echo, handler *user.Handler) {
+func SetupRouter() *echo.Echo {
+	e := echo.New()
 
-	e.POST("/v1/users", handler.Post)
+	handler := user.NewController()
+
+	e.GET("/health", func(c echo.Context) error {
+		return c.NoContent(200)
+	})
+
+	g := e.Group("/v1")
+
+	{
+		g.POST("/users", handler.Post)
+	}
+
+	return e
 }
