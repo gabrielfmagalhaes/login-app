@@ -21,7 +21,7 @@ func TestCreatedResponse(t *testing.T) {
 		},
 	}
 
-	statusCode, response := NewCreatedResponse("")
+	statusCode, response := NewCreatedResponse("any-data")
 
 	assert.Equal(t, expect.statusCode, statusCode)
 
