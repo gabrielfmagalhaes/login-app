@@ -26,5 +26,5 @@ func (h *Handler) Post(c echo.Context) error {
 		return c.JSON(common.NewBadRequestResponse(err))
 	}
 
-	return c.JSON(common.NewCreatedResponse(request))
+	return c.JSON(common.NewCreatedResponse(request.Email))
 }
