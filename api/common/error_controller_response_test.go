@@ -1,6 +1,7 @@
 package common
 
 import (
+	"login-app/api/out"
 	"net/http"
 	"testing"
 
@@ -10,17 +11,17 @@ import (
 func TestNewBadRequestResponse(t *testing.T) {
 	expect := struct {
 		statusCode int
-		response   ControllerResponse
+		response   out.ControllerResponse
 	}{
 		http.StatusBadRequest,
-		ControllerResponse{
-			"bad_request",
-			"Bad Request",
-			map[string]interface{}{},
+		out.ControllerResponse{
+			Code:    "bad_request",
+			Message: "Bad Request",
+			Data:    "any-data",
 		},
 	}
 
-	statusCode, response := NewBadRequestResponse()
+	statusCode, response := NewBadRequestResponse("any-data")
 
 	assert.Equal(t, expect.statusCode, statusCode)
 

@@ -1,6 +1,7 @@
 package common
 
 import (
+	"login-app/api/out"
 	"net/http"
 	"testing"
 
@@ -10,17 +11,17 @@ import (
 func TestCreatedResponse(t *testing.T) {
 	expect := struct {
 		statusCode int
-		response   ControllerResponse
+		response   out.ControllerResponse
 	}{
 		http.StatusCreated,
-		ControllerResponse{
-			"created",
-			"Created",
-			map[string]interface{}{},
+		out.ControllerResponse{
+			Code:    "created",
+			Message: "Created",
+			Data:    "any-data",
 		},
 	}
 
-	statusCode, response := NewCreatedResponse()
+	statusCode, response := NewCreatedResponse("")
 
 	assert.Equal(t, expect.statusCode, statusCode)
 

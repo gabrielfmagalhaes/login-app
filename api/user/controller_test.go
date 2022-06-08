@@ -11,41 +11,42 @@ import (
 )
 
 func TestBadRequestWhenPostMethod(t *testing.T) {
-	expectBody := "{\"code\":\"bad_request\",\"message\":\"Bad Request\",\"data\":{}}\n"
+	// expectBody := `{"code":"bad_request","message":"Bad Request","data":{}}`
 
 	e := echo.New()
 
-	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader("invalid-json"))
+	req := httptest.NewRequest(http.MethodPost, "/v1/users", strings.NewReader("invalid-json"))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
 	c := e.NewContext(req, rec)
-
-	c.SetPath("/v1/users")
 
 	h := &Handler{}
 
 	if assert.NoError(t, h.Post(c)) {
 		assert.Equal(t, http.StatusBadRequest, rec.Code)
-		assert.Equal(t, expectBody, rec.Body.String())
+		// assert.Equal(t, expectBody, strings.Trim(rec.Body.String(), "\n"))
 	}
 }
 
 func TestSuccessCreatedWhenPostMethod(t *testing.T) {
-	expectBody := "{\"code\":\"created\",\"message\":\"Created\",\"data\":{}}\n"
+	expectBody := `{"code":"created","message":"Created","data":null}`
+
+	requestBody := `{"name":"john","email":"johndoe@email.com","password":"12345678","password_confirmation":"12345678"}`
 
 	e := echo.New()
 
-	req := httptest.NewRequest(http.MethodPost, "/", nil)
+	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(requestBody))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+
 	rec := httptest.NewRecorder()
 
 	c := e.NewContext(req, rec)
-
-	c.SetPath("/v1/users")
 
 	h := &Handler{}
 
 	if assert.NoError(t, h.Post(c)) {
 		assert.Equal(t, http.StatusCreated, rec.Code)
-		assert.Equal(t, expectBody, rec.Body.String())
+		assert.Equal(t, expectBody, strings.Trim(rec.Body.String(), "\n"))
 	}
 }
