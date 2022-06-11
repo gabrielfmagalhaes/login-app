@@ -1,7 +1,7 @@
 package api
 
 import (
-	"login-app/api/user"
+	"login-app/internal/api/user"
 
 	"github.com/labstack/echo/v4"
 )

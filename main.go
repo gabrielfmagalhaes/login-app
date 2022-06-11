@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"login-app/api"
+	"login-app/internal/api"
 	"net/http"
 	"os"
 	"os/signal"

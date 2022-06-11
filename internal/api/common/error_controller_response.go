@@ -1,7 +1,7 @@
 package common
 
 import (
-	"login-app/api/out"
+	"login-app/internal/api/out"
 	"net/http"
 )
 

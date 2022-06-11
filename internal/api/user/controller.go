@@ -1,8 +1,8 @@
 package user
 
 import (
-	"login-app/api/common"
-	"login-app/api/user/in"
+	"login-app/internal/api/common"
+	"login-app/internal/api/user/in"
 	"login-app/platform/validator"
 
 	"github.com/labstack/echo/v4"
