@@ -1,27 +1,27 @@
 package common
 
 import (
-	"login-app/api/out"
+	"login-app/internal/api/out"
 	"net/http"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreatedResponse(t *testing.T) {
+func TestNewBadRequestResponse(t *testing.T) {
 	expect := struct {
 		statusCode int
 		response   out.ControllerResponse
 	}{
-		http.StatusCreated,
+		http.StatusBadRequest,
 		out.ControllerResponse{
-			Code:    "created",
-			Message: "Created",
+			Code:    "bad_request",
+			Message: "Bad Request",
 			Data:    "any-data",
 		},
 	}
 
-	statusCode, response := NewCreatedResponse("any-data")
+	statusCode, response := NewBadRequestResponse("any-data")
 
 	assert.Equal(t, expect.statusCode, statusCode)
 
