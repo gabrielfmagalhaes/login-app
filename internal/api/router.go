@@ -1,7 +1,7 @@
 package api
 
 import (
-	"login-app/internal/api/user"
+	"login-app/internal/api/user/handler"
 
 	"github.com/labstack/echo/v4"
 )
@@ -9,7 +9,7 @@ import (
 func SetupRouter() *echo.Echo {
 	e := echo.New()
 
-	handler := user.NewController()
+	handler := handler.NewController()
 
 	e.GET("/health", func(c echo.Context) error {
 		return c.NoContent(200)
