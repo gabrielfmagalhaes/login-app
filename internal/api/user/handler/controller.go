@@ -2,7 +2,7 @@ package handler
 
 import (
 	"login-app/internal/api/common"
-	"login-app/internal/api/user/in"
+	"login-app/internal/api/user/dto"
 	"login-app/platform/validator"
 
 	"github.com/labstack/echo/v4"
@@ -16,7 +16,7 @@ func NewController() *Handler {
 }
 
 func (h *Handler) Post(c echo.Context) error {
-	request := new(in.CreateUserRequest)
+	request := new(dto.CreateUserRequest)
 
 	if err := c.Bind(request); err != nil {
 		return c.JSON(common.NewBadRequestResponse(err))
