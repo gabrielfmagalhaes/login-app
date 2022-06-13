@@ -1,7 +1,7 @@
 package zap
 
 import (
-	"login-app/internal/mechanism/logger"
+	"login-app/platform/logger"
 
 	"go.uber.org/zap"
 )
