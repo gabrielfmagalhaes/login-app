@@ -12,8 +12,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func newDatabaseConnection() *mongo.Client {
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI("mongodb://localhost:27017"))
+func newDatabaseConnection(ctx context.Context) *mongo.Client {
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 
 	if err != nil {
 		panic(err)
@@ -23,9 +23,12 @@ func newDatabaseConnection() *mongo.Client {
 }
 
 func main() {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
 	e := web.SetupRouter()
 
-	// db := newDatabaseConnection()
+	db := newDatabaseConnection(ctx)
 
 	go func() {
 		if err := e.Start(":8000"); err != nil && err != http.ErrServerClosed {
@@ -36,9 +39,6 @@ func main() {
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
-
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
 
 	if err := e.Shutdown(ctx); err != nil {
 		e.Logger.Fatal(err)

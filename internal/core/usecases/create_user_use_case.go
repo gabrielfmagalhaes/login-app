@@ -8,5 +8,4 @@ func NewService() *Service {
 }
 
 func (s *Service) Post() {
-
 }
