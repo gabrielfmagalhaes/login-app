@@ -1,7 +1,7 @@
-package api
+package web
 
 import (
-	"login-app/internal/api/user/handler"
+	"login-app/internal/api/web/user/handler"
 
 	"github.com/labstack/echo/v4"
 )

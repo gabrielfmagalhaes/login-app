@@ -2,31 +2,30 @@ package main
 
 import (
 	"context"
-	"database/sql"
-	"log"
-	"login-app/internal/api"
-	"login-app/platform/mongodb/dbconfig"
+	"login-app/internal/api/web"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
+
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func newDatabaseConnection() *sql.DB {
-	db, err := sql.Open(dbconfig.PostgresDriver, dbconfig.DataSourceName)
+func newDatabaseConnection() *mongo.Client {
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI("mongodb://localhost:27017"))
 
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
-	return db
+	return client
 }
 
 func main() {
-	e := api.SetupRouter()
+	e := web.SetupRouter()
 
-	db := newDatabaseConnection()
-	defer db.Close()
+	// db := newDatabaseConnection()
 
 	go func() {
 		if err := e.Start(":8000"); err != nil && err != http.ErrServerClosed {

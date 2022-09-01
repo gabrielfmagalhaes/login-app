@@ -1,7 +1,7 @@
 package adapter
 
 import (
-	"login-app/internal/api/user/dto"
+	"login-app/internal/api/web/user/dto"
 	"login-app/internal/core/domain"
 )
 
