@@ -2,14 +2,15 @@ package web
 
 import (
 	"login-app/internal/api/web/user/handler"
+	"login-app/internal/core/services"
 
 	"github.com/labstack/echo/v4"
 )
 
-func SetupRouter() *echo.Echo {
+func SetupRouter(userService *services.Service) *echo.Echo {
 	e := echo.New()
 
-	handler := handler.NewController()
+	handler := handler.NewController(userService)
 
 	e.GET("/health", func(c echo.Context) error {
 		return c.NoContent(200)

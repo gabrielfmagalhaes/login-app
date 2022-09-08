@@ -5,7 +5,7 @@ import (
 	"login-app/internal/core/domain"
 )
 
-func ToDomain(dto dto.CreateUserRequest) *domain.User {
+func ToDomain(dto *dto.CreateUserRequest) *domain.User {
 	return &domain.User{
 		Name:     dto.Name,
 		Email:    dto.Email,
