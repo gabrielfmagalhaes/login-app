@@ -7,7 +7,7 @@ import (
 )
 
 type Logger struct {
-	log *zap.SugaredLogger
+	logger *zap.SugaredLogger
 }
 
 func NewLogger() logger.Logger {
@@ -16,24 +16,21 @@ func NewLogger() logger.Logger {
 
 	sugar := logger.Sugar()
 
-	return &Logger{log: sugar}
+	return &Logger{logger: sugar}
 }
 
 func (logger *Logger) Errorf(message string, args ...interface{}) {
-	logger.log.Errorw(message, args)
+	logger.logger.Errorln(message, args)
 }
 func (logger *Logger) Fatalf(message string, args ...interface{}) {
-	logger.log.Fatalw(message, args)
+	logger.logger.Fatalln(message, args)
 }
 func (logger *Logger) Infof(message string, args ...interface{}) {
-	logger.log.Infow(message, args)
+	logger.logger.Infoln(message, args)
 }
 func (logger *Logger) Warnf(message string, args ...interface{}) {
-	logger.log.Warnw(message, args)
+	logger.logger.Warnln(message, args)
 }
 func (logger *Logger) Debugf(message string, args ...interface{}) {
-	logger.log.Debugw(message, args)
-}
-func (logger *Logger) Printf(message string, args ...interface{}) {
-	logger.log.Infow(message, args)
+	logger.logger.Debugln(message, args)
 }
