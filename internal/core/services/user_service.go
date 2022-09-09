@@ -3,22 +3,22 @@ package services
 import (
 	"fmt"
 	"login-app/internal/api/web/user/dto"
-	"login-app/internal/core/adapter"
+	"login-app/internal/core/domain"
+	"login-app/internal/core/repository"
 	"login-app/platform/logger"
-	"login-app/platform/mongodb"
 )
 
 type Service struct {
 	logger     logger.Logger
-	repository *mongodb.Repository
+	repository repository.Repository
 }
 
-func NewService(logger logger.Logger, repository *mongodb.Repository) *Service {
+func NewService(logger logger.Logger, repository repository.Repository) *Service {
 	return &Service{logger: logger, repository: repository}
 }
 
 func (s *Service) Create(request *dto.CreateUserRequest) (string, error) {
-	user := adapter.ToDomain(request)
+	user := domain.ToDomain(request)
 
 	id, err := s.repository.Insert(user)
 

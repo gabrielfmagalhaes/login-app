@@ -2,10 +2,11 @@ package main
 
 import (
 	"context"
+	"log"
 	"login-app/internal/api/web"
+	"login-app/internal/core/repository"
 	"login-app/internal/core/services"
-	"login-app/platform/logger/zap"
-	"login-app/platform/mongodb"
+	"login-app/platform/logger"
 	"net/http"
 	"os"
 	"os/signal"
@@ -29,7 +30,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	logger := zap.NewLogger()
+	logger := logger.NewZapLogger()
 
 	db := newDatabaseConnection(ctx)
 	defer func() {
@@ -39,7 +40,7 @@ func main() {
 	}()
 
 	usersCollection := db.Database("user").Collection("users")
-	usersRepository := mongodb.NewRepository(usersCollection)
+	usersRepository := repository.NewRepository(usersCollection)
 
 	userService := services.NewService(logger, usersRepository)
 
@@ -47,6 +48,7 @@ func main() {
 
 	go func() {
 		if err := e.Start(":8000"); err != nil && err != http.ErrServerClosed {
+			log.Fatal()
 		}
 	}()
 
