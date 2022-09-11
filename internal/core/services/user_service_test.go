@@ -26,6 +26,6 @@ func TestGivenUserRequest_whenNewUser_thenReturnObjectId(t *testing.T) {
 		PasswordConfirmation: "12345678",
 	})
 
-	assert.Equal(t, "eoq", id)
+	assert.Equal(t, "id", id)
 	assert.Nil(t, err)
 }
