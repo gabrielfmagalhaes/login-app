@@ -1,6 +1,9 @@
 package handler
 
 import (
+	"login-app/internal/core/domain"
+	"login-app/internal/core/services"
+	"login-app/platform/logger"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -9,6 +12,13 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
 )
+
+type MockUserRepository struct {
+}
+
+func (r MockUserRepository) Insert(user *domain.User) (string, error) {
+	return "id", nil
+}
 
 func TestBadRequestWhenPostMethod(t *testing.T) {
 	// expectBody := `{"code":"bad_request","message":"Bad Request","data":{}}`
@@ -30,7 +40,7 @@ func TestBadRequestWhenPostMethod(t *testing.T) {
 }
 
 func TestSuccessCreatedWhenPostMethod(t *testing.T) {
-	expectBody := `{"code":"created","message":"Created","data":"johndoe@email.com"}`
+	expectBody := `{"code":"created","message":"Created","data":{"id":"id"}}`
 
 	requestBody := `{"name":"john","email":"johndoe@email.com","password":"12345678","password_confirmation":"12345678"}`
 
@@ -43,7 +53,7 @@ func TestSuccessCreatedWhenPostMethod(t *testing.T) {
 
 	c := e.NewContext(req, rec)
 
-	h := &Handler{}
+	h := &Handler{services.NewService(logger.LoggerMock{}, MockUserRepository{})}
 
 	if assert.NoError(t, h.Post(c)) {
 		assert.Equal(t, http.StatusCreated, rec.Code)
