@@ -34,5 +34,5 @@ func (h *Handler) Post(c echo.Context) error {
 		return c.JSON(common.NewBadRequestResponse(err))
 	}
 
-	return c.JSON(common.NewCreatedResponse(id))
+	return c.JSON(common.NewCreatedResponse(dto.CreateUserResponse{Id: id}))
 }
