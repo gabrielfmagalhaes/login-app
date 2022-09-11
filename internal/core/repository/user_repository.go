@@ -4,12 +4,14 @@ import (
 	"context"
 	"login-app/internal/core/domain"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type Repository interface {
 	Insert(user *domain.User) (string, error)
+	FindByEmail(email string) (domain.User, error)
 }
 
 type mongoRepository struct {
@@ -28,5 +30,15 @@ func (r *mongoRepository) Insert(user *domain.User) (string, error) {
 		return "", err
 	}
 
-	return result.InsertedID.(primitive.ObjectID).String(), nil
+	return result.InsertedID.(primitive.ObjectID).String(), err
+}
+
+func (r *mongoRepository) FindByEmail(email string) (domain.User, error) {
+	var user domain.User
+
+	filter := bson.D{{"email", email}}
+
+	err := r.collection.FindOne(context.TODO(), filter).Decode(&user)
+
+	return user, err
 }

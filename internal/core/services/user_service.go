@@ -20,12 +20,24 @@ func NewService(logger logger.Logger, repository repository.Repository) *Service
 func (s *Service) Create(request *dto.CreateUserRequest) (string, error) {
 	user := domain.ToDomain(request)
 
+	findUser, err := s.repository.FindByEmail(user.Email)
+
+	if findUser != (domain.User{}) {
+		return "", fmt.Errorf("an user already exists with the same email %s", findUser.Email)
+	}
+
+	if err != nil {
+		s.logger.Warnf("Error while trying to find user", err)
+
+		return "", fmt.Errorf("failed to create user %s", user.Email)
+	}
+
 	id, err := s.repository.Insert(user)
 
 	if err != nil {
 		s.logger.Warnf("Error while trying to create user", err)
 
-		return "", fmt.Errorf("Failed to create user %s", user.Email)
+		return "", fmt.Errorf("failed to create user %s", user.Email)
 	}
 
 	s.logger.Infof("User created", id)
